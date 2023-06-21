@@ -18,9 +18,9 @@ pipeline {
         stage('Run automated tests'){
             steps {
                 echo "Running automated tests"
-                //sh 'npm prune'
-                //sh 'npm cache clean --force'
-                //sh 'npm i'
+                sh 'npm prune'
+                sh 'npm cache clean --force'
+                sh 'npm i'
                 //sh 'npm install --save-dev mochawesome mochawesome-merge mochawesome-report-generator'
                 //sh 'npm run e2e:staging1spec'
             }
@@ -42,21 +42,21 @@ pipeline {
 
         stage('SonarQube analysis') {
             steps {
-            //script {
-            //            scannerHome = tool 'sonar-scanner';
-            //        }
-            //withSonarQubeEnv('KitchenSink') { // If you have configured more than one global server connection, you can specify its name
-            //sh "${scannerHome}/bin/sonar-scanner"
-            //}
+            script {
+                        scannerHome = tool 'sonar-scanner';
+                    }
+            withSonarQubeEnv('KitchenSink') { // If you have configured more than one global server connection, you can specify its name
+            sh "${scannerHome}/bin/sonar-scanner"
+            }
             }
         }
         
         stage("Quality Gate") {
             steps {
-                //timeout(time: 1, unit: 'HOURS') {
+                timeout(time: 1, unit: 'HOURS') {
                     // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
                     // true = set pipeline to UNSTABLE, false = don't
-                //    waitForQualityGate abortPipeline: false
+                    waitForQualityGate abortPipeline: false
                 }
             }
         }
@@ -66,13 +66,13 @@ pipeline {
             steps {
                 script {
                     // Path to the JMeter installation directory
-                    //def jmeterHome = '/usr/share/jmeter'
+                    def jmeterHome = '/usr/share/jmeter'
 
                     // Path to the JMeter test script
-                    //def jmeterScript = './testPlanHome.jmx'
+                    def jmeterScript = './testPlanHome.jmx'
 
                     // Execute JMeter test
-                    //sh "${jmeterHome}/bin/jmeter -n -t ${jmeterScript} -l result.jtl"
+                    sh "${jmeterHome}/bin/jmeter -n -t ${jmeterScript} -l result.jtl"
                 }
             }
             post {
