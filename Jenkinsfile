@@ -90,7 +90,7 @@ pipeline {
 
         stage('Perform manual testing...'){
             steps {
-                timeout(activity: true, time: 5) {
+                timeout(activity: true, time: 48, unit: 'HOURS') {
                     input 'Proceed to production?'
                 }
             }
