@@ -24,7 +24,7 @@ pipeline {
                 //sh 'npm install --save-dev mochawesome mochawesome-merge mochawesome-report-generator'
                 //sh 'npm run e2e:staging1spec'
             }
-            post {
+            /*post {
                 success {
                     publishHTML (
                         target : [
@@ -37,7 +37,7 @@ pipeline {
                             reportTitles: 'The Report'])
 
                 }
-            }
+            }*/
         }
 
         stage('SonarQube analysis') {
